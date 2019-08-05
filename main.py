@@ -21,7 +21,8 @@ from Territory import Territory
 # print(game.board.country_name)
 #
 #
-board = Board.init_egypt()
+board = Board.init_usa()
+print(board.map)
 # print(board.map[1])
 # x = open("egypt.txt", "r")
 # s = x.read()

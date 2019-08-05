@@ -9,7 +9,7 @@ class Board:
     def init_egypt(cls):
         cls.territory_count = 27
         cls.map = dict()
-        file = open("egypt.txt")
+        file = open("EGYPT.txt")
         text = file.read().split("\n")
         for i in range(1,28):
             cls.map[i] = Territory()
@@ -24,9 +24,9 @@ class Board:
     def init_usa(cls):
         cls.territory_count = 50
         cls.map = dict()
-        file = open("egypt.txt")
+        file = open("USA.txt")
         text = file.read().split("\n")
-        for i in range(1, 28):
+        for i in range(1, 51):
             cls.map[i] = Territory()
             currentLine = text[i - 1].split()
             cls.map[i].set_neighbours(currentLine[1:])
