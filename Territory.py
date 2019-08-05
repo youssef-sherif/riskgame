@@ -1,9 +1,22 @@
+
+from Color import Color
+
+
 class Territory:
-    
-    @classmethod
-    def in_egypt(cls):
+
+    def __init__(self):
+        self.color = Color(3)
+        self.troops = 0
+        self.neighbours = list()
         return
 
-    @classmethod
-    def in_usa(cls):
-        return
+    def set_neighbours(self,territory):
+        self.neighbours.extend(territory)
+
+
+    # def in_egypt(cls):
+    #     return
+    #
+    # @classmethod
+    # def in_usa(cls):
+    #     return
