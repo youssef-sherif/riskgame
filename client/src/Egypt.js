@@ -14,7 +14,7 @@ function Egypt(props) {
             {
               props.map.map(territory => {
                 return (
-                  <Territory x={territory.x} y={territory.y} id={territory.id} color={territory.color} />             
+                  <Territory key={territory.id} x={territory.x} y={territory.y} id={territory.id} color={territory.color} />             
                 )
               })
 
