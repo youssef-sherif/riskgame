@@ -4,12 +4,13 @@ from Color import Color
 
 class Territory:
 
-    def __init__(self, id):
+    def __init__(self, id, x, y):
         self.color = Color.Grey
         self.troops = 0
         self.neighbours = list()
         self.id = id
-        return
+        self.x = x
+        self.y = y
 
     def set_neighbours(self,territory):
         self.neighbours.extend(territory)
@@ -17,6 +18,8 @@ class Territory:
     def to_json(self):
         return {
             'id': self.id,
-            'color': str(self.color),
-            'troops': self.troops
+            'color': Color.to_str(self.color),
+            'troops': self.troops,
+            'x': self.x,
+            'y': self.y
         }
