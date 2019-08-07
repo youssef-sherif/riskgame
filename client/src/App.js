@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'
-import Egypt from './Egypt'
+import Game from './Game'
+import egyptMap from './egypt-map.png'
 import './App.css'
 
 function App() {
@@ -87,7 +88,10 @@ function App() {
             
 
       {country === 'Egypt' ?
-        <Egypt map={map} />
+        <Game 
+          map={map} 
+          imgSrc={egyptMap}
+        />
         :
         <div>not yet</div>
       }
