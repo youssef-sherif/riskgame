@@ -30,8 +30,6 @@ function App() {
       });
   }
 
-  console.log(agent1, agent2, country)
-
   return (
     <div className="App">
       <label htmlFor="mode-select">Choose a mode:</label>
