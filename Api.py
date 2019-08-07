@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask_cors import cross_origin
+from flask_cors import CORS, cross_origin
 from Game import Game
 from AgentFactory import AgentFactory
 from Color import Color
@@ -14,8 +14,9 @@ class Api:
 
     def __init__(self):
         self.app = Flask(__name__)
-        self.app.add_url_rule('/play_game', 'start_playing_game', self.start_playing_game)
-        self.app.add_url_rule('/simulate_game', 'start_simulation_game', self.start_simulation_game)
+        self.app.add_url_rule('/new_game', 'start_playing_game', self.start_playing_game)
+        self.app.add_url_rule('/new_simulation', 'start_simulation_game', self.start_simulation_game)
+        self.CORS = CORS(self.app, resources={r"/*": {"origins": "*"}})
         self.game = None
 
     @cross_origin(origin='http://localhost:3000')
@@ -46,4 +47,4 @@ class Api:
 
 api = Api()
 if __name__ == '__main__':
-    api.app.run()
+    api.app.run(debug=True)
