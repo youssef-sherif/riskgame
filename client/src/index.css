@@ -1,0 +1,14 @@
+.egypt-map {
+  position: fixed;
+  left: 30%; 
+  top: 20%;
+  z-index: -1;
+}
+
+.territory-svg {
+  position: absolute;  
+}
+
+.territory-circle {
+  position: absolute;
+}
