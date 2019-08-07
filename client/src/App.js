@@ -12,6 +12,7 @@ function App() {
   const [opponent, setOpponent] = useState("passive")
   const [agent1, setAgent1] = useState("passive")
   const [agent2, setAgent2] = useState("passive")
+  const [started, setStarted] = useState(false)
 
   const newGame = (opponent, country) => {
     axios(
@@ -29,6 +30,23 @@ function App() {
       .then(data => {
         setMap(data.data)
       });
+  }
+  
+  const getGame = () => {
+    if (started === true) {
+      if(country === 'Egypt') {
+        return (
+          <Game 
+            map={map} 
+            imgSrc={egyptMap}
+          />
+        )
+      } else {
+        return (
+          <div>not yet</div>
+        )
+      }
+    }
   }
 
   return (
@@ -81,20 +99,15 @@ function App() {
       <button onClick={() => {
         if (mode === 'playing') {
           newGame(opponent, country)
+          setStarted(true)
         } else {
           newSimulation(agent1, agent2, country)
+          setStarted(true)
         }
       }}>start game</button>
             
-
-      {country === 'Egypt' ?
-        <Game 
-          map={map} 
-          imgSrc={egyptMap}
-        />
-        :
-        <div>not yet</div>
-      }
+      
+      {getGame()}
     </div>
   );
 }

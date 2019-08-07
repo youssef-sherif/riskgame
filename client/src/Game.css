@@ -1,0 +1,20 @@
+.map {
+    position: fixed;
+    left: 30%; 
+    top: 30%;
+    z-index: -1;
+  }
+  
+  .territory-svg {
+    position: absolute;  
+  }
+  
+  .territory-circle {
+    position: absolute;
+  }
+
+.selected-territory {
+    position: absolute;
+    bottom: 5%;
+    float: left;    
+}
