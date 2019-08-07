@@ -1,7 +1,7 @@
 .egypt-map {
   position: fixed;
   left: 30%; 
-  top: 20%;
+  top: 30%;
   z-index: -1;
 }
 
