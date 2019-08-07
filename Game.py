@@ -3,6 +3,7 @@ from Agent import Agent
 from Board import Board
 from Territory import Territory
 from Color import Color
+import numpy as np
 
 
 class Game:
@@ -12,6 +13,8 @@ class Game:
 
     def __init__(self):
         self.turn = Color.Blue
+        self.board.set_starting_armies(Color.Blue)
+        self.board.set_starting_armies(Color.Red)
 
     @classmethod
     def start_simulation_mode(cls, agent_1: Agent, agent_2: Agent, country_name: str):
@@ -22,6 +25,7 @@ class Game:
             cls.board = Board.init_egypt()
         elif country_name == 'USA':
             cls.board = Board.init_usa()
+
         else:
             print('not supported yet')
 
@@ -46,7 +50,7 @@ class Game:
         return cls()
 
     def alternate_turn(self):
-        if self.turn == Color.Blue:
+        if self.turn is Color.Blue:
             self.turn = Color.Red
         else:
             self.turn = Color.Blue

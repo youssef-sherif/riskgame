@@ -1,5 +1,6 @@
 from Territory import Territory
 from Color import Color
+import random
 
 
 class Board:
@@ -16,7 +17,7 @@ class Board:
         file = open("Egypt.txt")
         text = file.read().split("\n")
         for i in range(1,28):
-            cls.map[i] = Territory()
+            cls.map[i] = Territory(i)
             current_line = text[i-1].split()
             cls.map[i].set_neighbours(current_line[1:])
 
@@ -39,23 +40,48 @@ class Board:
     def update(self, territory_armies: {}, color):
         for item in territory_armies:
             self.map[item].color = color
-            self.map[item].troops = territory_armies[item]
+            self.map[item].troops += territory_armies[item]
 
-    def get_territories_with_color(self, color):
+    def set_starting_armies(self, color):
+        army_size = 20
+        while army_size > 0:
+            i = random.randint(1, self.territory_count+1)
+            if self.map[i].color is Color.Grey:
+                x = random.randint(1, army_size+1)
+                self.map[i].color = color
+                self.map[i].troops = x
+                army_size -= x
+
+    def find_territories_with_color(self, color) -> {}:
         j = 1
         territories = {}
-        for i in range(1, self.territory_count):
-            if self.map[i].color is color:
+        for i in range(1, self.territory_count+1):
+            if self.map[i].color == color:
                 territories[j] = self.map[i]
             j += 1
 
         return territories
 
+    def find_territory_with_fewest_armies(self, color) -> int:
+        territory_number = 1
+        for i in range(1, self.territory_count+1):
+            if self.map[i].color == color:
+                if self.map[i].troops <= self.map[territory_number].troops:
+                    territory_number = i
+
+        return territory_number
+
+    def to_json(self):
+        arr = [{} for i in range(self.territory_count)]
+        for i in range(0, self.territory_count):
+            arr[i] = (self.map[i+1].to_json())
+
+        return arr
+
     def display(self):
 
-        for i in range(1, self.territory_count):
-            print(self.map[i].color)
-            print(self.map[i].troops)
+        for i in range(1, self.territory_count+1):
+            print(str(i) + " " + str(self.map[i].troops) + " " + str(self.map[i].color))
 
         print('\n')
 
