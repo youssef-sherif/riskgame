@@ -14,7 +14,7 @@ function App() {
 
   const newGame = (opponent, country) => {
     axios(
-      `http://localhost:5000/new_game?opponent_type=${opponent}&country=${country}`
+      `http://localhost:5000/game?opponent_type=${opponent}&country=${country}`
     )
       .then(data => {    
         setMap(data.data)
@@ -23,7 +23,7 @@ function App() {
 
   const newSimulation = (agent1, agent2, country) => {
     axios(
-      `http://localhost:5000/new_simulation?agent1_type=${agent1}&agent2_type=${agent2}&country=${country}`
+      `http://localhost:5000/simulation?agent1_type=${agent1}&agent2_type=${agent2}&country=${country}`
     )
       .then(data => {
         setMap(data.data)

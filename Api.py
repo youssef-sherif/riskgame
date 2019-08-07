@@ -14,8 +14,8 @@ class Api:
 
     def __init__(self):
         self.app = Flask(__name__)
-        self.app.add_url_rule('/new_game', 'start_playing_game', self.start_playing_game)
-        self.app.add_url_rule('/new_simulation', 'start_simulation_game', self.start_simulation_game)
+        self.app.add_url_rule('/game', 'start_playing_game', self.start_playing_game)
+        self.app.add_url_rule('/simulation', 'start_simulation_game', self.start_simulation_game)
         self.CORS = CORS(self.app, resources={r"/*": {"origins": "*"}})
         self.game = None
 
