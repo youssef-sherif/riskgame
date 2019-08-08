@@ -41,10 +41,9 @@ class Board:
 
         return cls('USA', cls.territory_count)
 
-    def update(self, territory_armies: {}, color):
-        for item in territory_armies:
-            self.map[item].color = color
-            self.map[item].troops += territory_armies[item]
+    def update(self, territory, armies_count, color):
+        self.map[territory].color = color
+        self.map[territory].troops += armies_count
 
     def set_starting_armies(self, color):
         army_size = 20
