@@ -4,18 +4,20 @@ from Color import Color
 
 class HumanAgent(Agent):
 
-    def turn(self, game, territory_armies: {}):
-        self.receive_armies(game.board)
-        self.place_territories(game.board, territory_armies)
-        self.attack(game.board)
+    def place_territories(self, board, territory, armies_count):
+        if board.map[territory].color == Color.Red:
+            raise Exception('You can only place armies on owned or neutral territories')
+        self.available_armies_count -= armies_count
+        board.update(territory, armies_count, self.color)
 
-        game.alternate_turn()
+    def attack(self, board, attacking_territory, attacked_territory, armies_count):
+        board.map[attacked_territory].troops -= armies_count
+        board.map[attacking_territory].troops -= armies_count
 
-    def place_territories(self, board, territory_armies: {}):
-        for item in territory_armies:
-            if board.map[item].color == Color.Blue or board.map[item].color == Color.Red:
-                raise Exception('You can only place armies on neutral territories')
-        board.update(territory_armies, self.color)
+        if board.map[attacked_territory].troops <= 0:
+            board.map[attacked_territory].troops = 1
+            board.map[attacked_territory].color = board.map[attacking_territory].color
 
-    def attack(self, board):
-        return
+            return True
+
+        return False
