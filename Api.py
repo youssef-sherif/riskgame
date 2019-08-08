@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
+from flask_socketio import SocketIO, emit
 from Game import Game
 from AgentFactory import AgentFactory
 from Color import Color
@@ -8,7 +9,6 @@ import json
 
 def json_response(payload, status=200):
     return json.dumps(payload), status, {'content-type': 'application/json'}
-
 
 class Api:
 
@@ -23,6 +23,7 @@ class Api:
         self.app.add_url_rule('/blue-armies', 'receive_blue_armies', self.receive_blue_armies, methods=["GET"])
         self.app.add_url_rule('/red-armies', 'receive_red_armies', self.receive_red_armies, methods=["GET"])
         self.game = None
+
 
     @cross_origin(origin='http://localhost:3000')
     def start_playing_game(self):
@@ -108,6 +109,17 @@ class Api:
 
 
 api = Api()
-cors = CORS(api.app, resources={r"/*": {"origins": "*"}})
+CORS(api.app, resources={r"/*": {"origins": "localhost:3000"}})
+socketio = SocketIO(api.app)
+
+
+@cross_origin(origin='http://localhost:3000')
+@socketio.on('on bot play', namespace='/test')
+def bot_play():
+    api.game.opponent_agent.receive_armies(api.game.board)
+    api.game.opponent_agent.place_territories(api.game.board)
+    emit('map', {'data': api.game.board}, broadcast=True)
+
+
 if __name__ == '__main__':
-    api.app.run(debug=True)
+    socketio.run(api.app, debug=True)
