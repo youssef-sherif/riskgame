@@ -5,16 +5,23 @@
     z-index: -1;
   }
   
-  .territory-svg {
+.territory-svg {
     position: absolute;  
-  }
+}
   
-  .territory-circle {
+.territory-circle {
     position: absolute;
-  }
+}
 
 .selected-territory {
     position: absolute;
     bottom: 5%;
     float: left;    
+}
+
+.actions {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    float: right;    
 }

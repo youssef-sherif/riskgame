@@ -63,16 +63,6 @@ function Game(props) {
         setAvailableArmies(data.data)
       });
   }
-
-  const receiveRedArmies = () => {
-    axios(
-      `http://localhost:5000/red-armies`
-    )
-      .then(data => {
-        setAvailableArmies(data.data)
-      });
-  }
-
   const getAttackButton = () => {
     if (differentColorNeighbours.indexOf(selectedTerritory.id + "") > -1) {
       if (attacking === true) {
@@ -83,7 +73,7 @@ function Game(props) {
             }}>
               attack {selectedTerritory.color}
             </button>
-            <input id='attacking-armies' defaultValue='1' type="number" name="quantity" min="1" max={attackingTerritory.troops - 1} />
+            <input id='attacking-armies' defaultValue='0' type="number" name="quantity" min="1" max={attackingTerritory.troops - 1} />
           </div>
         )
       }
@@ -170,32 +160,35 @@ function Game(props) {
           }
         </svg>
       </div>
+
       <div className='selected-territory'>
         currently playing: {turn}
         <br />
+        <br />
         available armies: {availableArmies}
         <br />
-        selected territory: {selectedTerritory.id}
         <br />
-        troops: {selectedTerritory.troops}
+        selected territory: 
         <br />
-        color: {selectedTerritory.color}
-        <br />
+        <span>
+          id: {selectedTerritory.id}
+          <br />
+          troops: {selectedTerritory.troops}
+          <br />
+          color: {selectedTerritory.color}
+          <br />
+        </span>
+      </div>
+
+      <div className='actions'>
         {getPlaceArmiesButton()}
+        <br />
         <br />
         {getAttackButton()}
         <br />
+        <br />
         <button onClick={() => {
-          if (turn === 'blue') {
-            fetchNeighboursToRed()
-            receiveRedArmies()
-            setTurn('red')
-          }
-          else {
-            fetchNeighboursToBlue()
-            receiveBlueArmies()
-            setTurn('blue')
-          }
+          setTurn('red')
         }}>
           change turns
         </button>

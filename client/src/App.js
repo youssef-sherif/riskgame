@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios'
 import Game from './Game'
+import socketIOClient from 'socket.io-client'
 import egyptMap from './egypt-map.png'
 import './App.css'
 
 function App() {
+
+  // const socket = socketIOClient('http://localhost:5000/socket.io')
+  // socket.on("on bot play", data => console.log(data));
 
   const [map, setMap] = useState([])
   const [country, setCountry] = useState("Egypt")
@@ -12,7 +16,7 @@ function App() {
   const [opponent, setOpponent] = useState("passive")
   const [agent1, setAgent1] = useState("passive")
   const [agent2, setAgent2] = useState("passive")
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(false)  
 
   const newGame = (opponent, country) => {
     axios(
