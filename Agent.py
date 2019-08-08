@@ -18,7 +18,7 @@ class Agent:
         if armies_to_receive < 3:
             self.available_armies_count = 3
         else:
-            self.available_armies_count = armies_to_receive
+            self.available_armies_count = int(armies_to_receive)
 
     def get_opponent_color(self):
         if self.color == Color.Blue:
