@@ -37,6 +37,7 @@ function App() {
       if(country === 'Egypt') {
         return (
           <Game 
+            setMap={setMap.bind(this)}
             map={map} 
             imgSrc={egyptMap}
           />
