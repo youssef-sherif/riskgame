@@ -1,6 +1,7 @@
 from Color import Color
 from HumanAgent import HumanAgent
 from PassiveAgent import PassiveAgent
+from AggressiveAgent import AggressiveAgent
 
 
 class AgentFactory:
@@ -11,3 +12,5 @@ class AgentFactory:
             return HumanAgent(color)
         elif agent_name == 'passive':
             return PassiveAgent(color)
+        elif agent_name == 'aggressive':
+            return AggressiveAgent(color)
