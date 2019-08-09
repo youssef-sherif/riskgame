@@ -126,8 +126,8 @@ def handle_connect():
 def handle_opponent_play(data):
     print(data)
     api.game.opponent_agent.make_decision(api.game.board)
-    print(api.game.board.to_json())
     emit('map change', {"map": api.game.board.to_json()}, broadcast=True)
+    emit('disconnect')
 
 
 @socket_io.on('disconnect', namespace='/opponent-play')
@@ -137,3 +137,4 @@ def handle_disconnect():
 
 if __name__ == '__main__':
     socket_io.run(api.app, host='0.0.0.0', debug=True)
+
