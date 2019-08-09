@@ -17,19 +17,6 @@ function Game(props) {
   const [selecAttackingTerritory, setSelectAttackingTerritory] = useState(false)
   const [attackingTerritory, setAttackingTerritory] = useState({})
 
-  if(turn === 'red') {                
-    io.connect('http://localhost:5000/opponent-play')
-    .on("map change", data => {
-      console.log('received data')
-      if(typeof data !== 'undefined') {
-        console.log(data.map)
-        props.setMap(data.map)  
-        setTurn('blue')
-        receiveBlueArmies()    
-      }          
-    })    
-  }
-
   const fetchNeighboursToBlue = () => {
     axios(
       `http://localhost:5000/neighbours_to_blue`
@@ -43,6 +30,7 @@ function Game(props) {
     axios.post(`http://localhost:5000/territories/${territory}/place`, {
       'armies_count': armiesCount
     }).then(data => {
+      console.log('here')
       props.setMap(data.data.map)
       setAvailableArmies(data.data.available_armies)
       fetchNeighboursToBlue()
@@ -57,9 +45,17 @@ function Game(props) {
       fetchNeighboursToBlue()
       setAttacking(false)
       setTurn('red')
-      io.connect('http://localhost:5000/opponent-play')
-      .emit('opponent play', 'red')      
-      io.disconnect('http://localhost:5000/opponent-play')
+      io('http://localhost:5000/opponent-play', {reconnection: false})
+      .emit('opponent play', 'red')
+      .on("map change", data => {
+        console.log('received data')
+        if(typeof data !== 'undefined') {
+          console.log(data.map)
+          props.setMap(data.map)                  
+          setTurn('blue')
+          receiveBlueArmies()        
+        }          
+      })   
     })
 
   }
