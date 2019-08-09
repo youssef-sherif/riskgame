@@ -4,6 +4,7 @@ from flask_socketio import SocketIO, emit, send
 from Game import Game
 from AgentFactory import AgentFactory
 from Color import Color
+from time import sleep
 import json
 
 
@@ -25,6 +26,7 @@ class Api:
                               methods=["GET"])
         self.app.add_url_rule('/blue-armies', 'receive_blue_armies', self.receive_blue_armies, methods=["GET"])
         self.app.add_url_rule('/red-armies', 'receive_red_armies', self.receive_red_armies, methods=["GET"])
+        self.app.add_url_rule('/opponent-play', 'opponent_play', self.opponent_play, methods=["GET"])
         self.app.config['SECRET_KEY'] = 'secret!'
         self.game = None
 
@@ -100,6 +102,16 @@ class Api:
         return json_response(json)
 
     @cross_origin(origin='http://localhost:3000')
+    def opponent_play(self):
+        self.game.opponent_agent.make_decision(api.game.board)
+
+        json = {
+            "map": api.game.board.to_json()
+        }
+
+        return json_response(json)
+
+    @cross_origin(origin='http://localhost:3000')
     def receive_blue_armies(self):
         self.game.player.receive_armies(self.game.board)
 
@@ -114,23 +126,25 @@ class Api:
 
 api = Api()
 socket_io = SocketIO()
-socket_io.init_app(app=api.app, cors_allowed_origins="*")
+socket_io.init_app(app=api.app, cors_allowed_origins="*")#, async_handlers=True)
 
 
-@socket_io.on('connect', namespace='/opponent-play')
+@socket_io.on('connect', namespace='/simulation')
 def handle_connect():
     print('client connected')
 
 
-@socket_io.on('opponent play', namespace='/opponent-play')
-def handle_opponent_play(data):
-    print(data)
-    api.game.opponent_agent.make_decision(api.game.board)
-    emit('map change', {"map": api.game.board.to_json()}, broadcast=True)
-    emit('disconnect')
+@socket_io.on('time interval', namespace='/simulation')
+def handle_simulation():
+    api.game.agent_1.make_decision(api.game.board)
+    emit('simulation change', {"map": api.game.board.to_json()})
+    api.game.alternate_turn()
+    sleep(2)
+    api.game.agent_2.make_decision(api.game.board)
+    emit('simulation change', {"map": api.game.board.to_json()})
 
 
-@socket_io.on('disconnect', namespace='/opponent-play')
+@socket_io.on('disconnect', namespace='/simulation')
 def handle_disconnect():
     print('client disconnected')
 
