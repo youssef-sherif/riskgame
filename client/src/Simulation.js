@@ -15,7 +15,7 @@ function Simulation(props) {
                 props.setMap(data.map)
             }
         })                        
-    }, 5000)
+    }, 2000)
 
     return (
         <div>
