@@ -3,7 +3,7 @@ import axios from 'axios'
 import io from 'socket.io-client'
 import './Game.css'
 
-function Game(props) {
+function Game(props) {    
 
   const [differentColorNeighbours, setDifferentColorNeighbours] = useState([])
   const [selectedTerritory, setSelectedTerritory] = useState({
@@ -17,16 +17,17 @@ function Game(props) {
   const [selecAttackingTerritory, setSelectAttackingTerritory] = useState(false)
   const [attackingTerritory, setAttackingTerritory] = useState({})
 
-  if(turn === 'red') {
-    io('http://localhost:5000/opponent')
-    .on("connect", data => {
+  if(turn === 'red') {                
+    io.connect('http://localhost:5000/opponent-play')
+    .on("map change", data => {
       console.log('received data')
       if(typeof data !== 'undefined') {
-        props.setMap(data.map)      
+        console.log(data.map)
+        props.setMap(data.map)  
         setTurn('blue')
-        receiveBlueArmies()
+        receiveBlueArmies()    
       }          
-    });
+    })    
   }
 
   const fetchNeighboursToBlue = () => {
@@ -56,6 +57,8 @@ function Game(props) {
       fetchNeighboursToBlue()
       setAttacking(false)
       setTurn('red')
+      io.connect('http://localhost:5000/opponent-play')
+      .emit('opponent play', 'red')          
     })
   }
 
