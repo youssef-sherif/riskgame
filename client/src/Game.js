@@ -70,8 +70,8 @@ function Game(props) {
         setAvailableArmies(data.data)
       });
   }
-  const getAttackButton = () => {
-    if (differentColorNeighbours.indexOf(selectedTerritory.id + "") > -1) {
+  const getAttackButton = () => {    
+    if (differentColorNeighbours.indexOf(selectedTerritory.id + "") > -1 && selectedTerritory.color === 'red') {
       if (attacking === true) {
         return (
           <div>
