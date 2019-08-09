@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import io from 'socket.io-client'
 import './Game.css'
 
-function Game(props) {    
+function Game(props) {
 
   const [differentColorNeighbours, setDifferentColorNeighbours] = useState([])
   const [selectedTerritory, setSelectedTerritory] = useState({
@@ -37,7 +36,7 @@ function Game(props) {
     })
   }
 
-  const attack = (attacking_territory, attacked_territory, armiesCount) => {    
+  const attack = (attacking_territory, attacked_territory, armiesCount) => {
     axios.post(`http://localhost:5000/territories/${attacked_territory}/attack`, {
       'attacking_territory': attacking_territory,
       'armies_count': armiesCount
@@ -45,17 +44,13 @@ function Game(props) {
       fetchNeighboursToBlue()
       setAttacking(false)
       setTurn('red')
-      io('http://localhost:5000/opponent-play', {reconnection: false})
-      .emit('opponent play', 'red')
-      .on("map change", data => {
-        console.log('received data')
-        if(typeof data !== 'undefined') {
-          console.log(data.map)
-          props.setMap(data.map)                  
-          setTurn('blue')
-          receiveBlueArmies()        
-        }          
-      })   
+      axios(
+        `http://localhost:5000/opponent-play`
+      ).then(data => {
+        props.setMap(data.data.map)
+        setTurn('blue')
+        receiveBlueArmies()
+      })
     })
 
   }
@@ -68,7 +63,7 @@ function Game(props) {
         setAvailableArmies(data.data)
       });
   }
-  const getAttackButton = () => {    
+  const getAttackButton = () => {
     if (differentColorNeighbours.indexOf(selectedTerritory.id + "") > -1 && selectedTerritory.color === 'red') {
       if (attacking === true) {
         return (
