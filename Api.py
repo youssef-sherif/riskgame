@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, send
 from Game import Game
 from AgentFactory import AgentFactory
 from Color import Color
@@ -10,6 +10,7 @@ import json
 def json_response(payload, status=200):
     return json.dumps(payload), status, {'content-type': 'application/json'}
 
+
 class Api:
 
     def __init__(self):
@@ -18,12 +19,14 @@ class Api:
         self.app.add_url_rule('/territories/<attacked_territory>/attack', 'attack', self.attack, methods=["POST"])
         self.app.add_url_rule('/game', 'start_playing_game', self.start_playing_game, methods=["GET"])
         self.app.add_url_rule('/simulation', 'start_simulation_game', self.start_simulation_game, methods=["GET"])
-        self.app.add_url_rule('/neighbours_to_blue', 'get_neighbours_to_blue', self.get_neighbours_to_blue, methods=["GET"])
-        self.app.add_url_rule('/neighbours_to_red', 'get_neighbours_to_red', self.get_neighbours_to_red, methods=["GET"])
+        self.app.add_url_rule('/neighbours_to_blue', 'get_neighbours_to_blue', self.get_neighbours_to_blue,
+                              methods=["GET"])
+        self.app.add_url_rule('/neighbours_to_red', 'get_neighbours_to_red', self.get_neighbours_to_red,
+                              methods=["GET"])
         self.app.add_url_rule('/blue-armies', 'receive_blue_armies', self.receive_blue_armies, methods=["GET"])
         self.app.add_url_rule('/red-armies', 'receive_red_armies', self.receive_red_armies, methods=["GET"])
+        self.app.config['SECRET_KEY'] = 'secret!'
         self.game = None
-
 
     @cross_origin(origin='http://localhost:3000')
     def start_playing_game(self):
@@ -88,7 +91,8 @@ class Api:
     def attack(self, attacked_territory):
         armies_count = int(request.get_json()['armies_count'])
         attacking_territory = int(request.get_json()['attacking_territory'])
-        success = self.game.player.attack(self.game.board, int(attacking_territory), int(attacked_territory), armies_count)
+        success = self.game.player.attack(self.game.board, int(attacking_territory), int(attacked_territory),
+                                          armies_count)
         json = {
             'map': self.game.board.to_json(),
             'attack_successful': success
@@ -109,17 +113,18 @@ class Api:
 
 
 api = Api()
-CORS(api.app, resources={r"/*": {"origins": "localhost:3000"}})
-socketio = SocketIO(api.app)
+socket_io = SocketIO()
+socket_io.init_app(app=api.app, cors_allowed_origins="*")
 
 
-@cross_origin(origin='http://localhost:3000')
-@socketio.on('on bot play', namespace='/test')
-def bot_play():
-    api.game.opponent_agent.receive_armies(api.game.board)
-    api.game.opponent_agent.place_territories(api.game.board)
-    emit('map', {'data': api.game.board}, broadcast=True)
+@socket_io.on('connect', namespace='/opponent')
+def opponent_play():
+    print('client connected')
+
+    api.game.opponent_agent.make_decision(api.game.board)
+
+    return emit('connect', {"map": api.game.board.to_json()})
 
 
 if __name__ == '__main__':
-    socketio.run(api.app, debug=True)
+    socket_io.run(api.app, host='0.0.0.0', debug=True)
