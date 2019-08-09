@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import io from 'socket.io-client'
 import './Game.css'
 
 function Game(props) {
@@ -16,18 +17,21 @@ function Game(props) {
   const [selecAttackingTerritory, setSelectAttackingTerritory] = useState(false)
   const [attackingTerritory, setAttackingTerritory] = useState({})
 
+  if(turn === 'red') {
+    io('http://localhost:5000/opponent')
+    .on("connect", data => {
+      console.log('received data')
+      if(typeof data !== 'undefined') {
+        props.setMap(data.map)      
+        setTurn('blue')
+        receiveBlueArmies()
+      }          
+    });
+  }
+
   const fetchNeighboursToBlue = () => {
     axios(
       `http://localhost:5000/neighbours_to_blue`
-    )
-      .then(data => {
-        setDifferentColorNeighbours(data.data)
-      });
-  }
-
-  const fetchNeighboursToRed = () => {
-    axios(
-      `http://localhost:5000/neighbours_to_red`
     )
       .then(data => {
         setDifferentColorNeighbours(data.data)
@@ -44,14 +48,14 @@ function Game(props) {
     })
   }
 
-  const attack = (attacking_territory, attacked_territory, armiesCount) => {
+  const attack = (attacking_territory, attacked_territory, armiesCount) => {    
     axios.post(`http://localhost:5000/territories/${attacked_territory}/attack`, {
       'attacking_territory': attacking_territory,
       'armies_count': armiesCount
     }).then(data => {
-      props.setMap(data.data.map)
       fetchNeighboursToBlue()
       setAttacking(false)
+      setTurn('red')
     })
   }
 
@@ -101,7 +105,9 @@ function Game(props) {
     if (availableArmies <= 0) {
       return (
         <div>
-          you don't have any more troops. Attack or change turns
+          you don't have any more troops.
+          <br />
+          Attack to continue
         </div>
       )
     }
@@ -168,7 +174,7 @@ function Game(props) {
         available armies: {availableArmies}
         <br />
         <br />
-        selected territory: 
+        selected territory:
         <br />
         <span>
           id: {selectedTerritory.id}
@@ -187,11 +193,6 @@ function Game(props) {
         {getAttackButton()}
         <br />
         <br />
-        <button onClick={() => {
-          setTurn('red')
-        }}>
-          change turns
-        </button>
       </div>
     </div>
   );

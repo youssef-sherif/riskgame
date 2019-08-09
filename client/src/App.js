@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios'
 import Game from './Game'
-import socketIOClient from 'socket.io-client'
 import egyptMap from './egypt-map.png'
 import './App.css'
 
 function App() {
-
-  // const socket = socketIOClient('http://localhost:5000/socket.io')
-  // socket.on("on bot play", data => console.log(data));
 
   const [map, setMap] = useState([])
   const [country, setCountry] = useState("Egypt")
@@ -81,6 +77,7 @@ function App() {
             setOpponent(e.target.value)
           }}>            
             <option value="passive">Passive</option>
+            <option value="aggressive">Aggressive</option>
           </select>
         </div>
         :
@@ -90,6 +87,7 @@ function App() {
             setAgent1(e.target.value)
           }}>            
             <option value="passive">Passive</option>
+            <option value="aggressive">Aggressive</option>
           </select>
 
           <label htmlFor="agent2-select">Choose agent2:</label>
@@ -97,6 +95,7 @@ function App() {
             setAgent2(e.target.value)
           }}>            
             <option value="passive">Passive</option>
+            <option value="aggressive">Aggressive</option>
           </select>
         </div>
       }
