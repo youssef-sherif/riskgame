@@ -117,13 +117,22 @@ socket_io = SocketIO()
 socket_io.init_app(app=api.app, cors_allowed_origins="*")
 
 
-@socket_io.on('connect', namespace='/opponent')
-def opponent_play():
+@socket_io.on('connect', namespace='/opponent-play')
+def handle_connect():
     print('client connected')
 
-    api.game.opponent_agent.make_decision(api.game.board)
 
-    return emit('connect', {"map": api.game.board.to_json()})
+@socket_io.on('opponent play', namespace='/opponent-play')
+def handle_opponent_play(data):
+    print(data)
+    api.game.opponent_agent.make_decision(api.game.board)
+    print(api.game.board.to_json())
+    emit('map change', {"map": api.game.board.to_json()}, broadcast=True)
+
+
+@socket_io.on('disconnect', namespace='/opponent-play')
+def handle_disconnect():
+    print('client disconnected')
 
 
 if __name__ == '__main__':
