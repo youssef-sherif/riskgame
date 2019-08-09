@@ -65,15 +65,6 @@ class Board:
 
         return territories
 
-    def find_territory_with_fewest_armies(self, color) -> int:
-        territory_number = 1
-        for i in range(1, self.territory_count+1):
-            if self.map[i].color == color:
-                if self.map[i].troops <= self.map[territory_number].troops:
-                    territory_number = i
-
-        return territory_number
-
     def to_json(self):
         arr = [{} for i in range(self.territory_count)]
         for i in range(0, self.territory_count):
