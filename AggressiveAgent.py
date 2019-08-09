@@ -23,7 +23,7 @@ class AggressiveAgent(Agent):
         board.map[attacking_territory].troops -= armies_count
 
         if board.map[attacked_territory].troops <= 0:
-            board.map[attacked_territory].troops = 1
+            board.map[attacked_territory].troops = armies_count
             board.map[attacked_territory].color = board.map[attacking_territory].color
 
             return True
@@ -31,7 +31,8 @@ class AggressiveAgent(Agent):
         return False
 
     def find_weakest_neighbour_to(self, board, attacking_territory) -> int:
-        territory_number = 1
+        print(board.map[attacking_territory].neighbours[0])
+        territory_number = int(board.map[attacking_territory].neighbours[0])
         for i in board.map[attacking_territory].neighbours:
             if board.map[int(i)].color == self.get_opponent_color():
                 if board.map[int(i)].troops < board.map[territory_number].troops:
