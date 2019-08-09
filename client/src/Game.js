@@ -58,8 +58,10 @@ function Game(props) {
       setAttacking(false)
       setTurn('red')
       io.connect('http://localhost:5000/opponent-play')
-      .emit('opponent play', 'red')          
+      .emit('opponent play', 'red')      
+      io.disconnect('http://localhost:5000/opponent-play')
     })
+
   }
 
   const receiveBlueArmies = () => {
