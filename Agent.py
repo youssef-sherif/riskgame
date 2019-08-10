@@ -20,7 +20,7 @@ class Agent:
         else:
             self.available_armies_count = int(armies_to_receive)
 
-    def make_decision(self):
+    def make_decision(self, board):
         return
 
     def get_opponent_color(self):
