@@ -11,6 +11,9 @@ class Territory:
         self.x = x
         self.y = y
 
+    def __lt__(self, other):
+        return self.troops < other.troops
+
     def set_neighbours(self, territory):
         self.neighbours.extend(territory)
 
