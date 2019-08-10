@@ -28,32 +28,43 @@ function Game(props) {
   const placeArmies = (territory, armiesCount) => {
     axios.post(`http://localhost:5000/territories/${territory}/place`, {
       'armies_count': armiesCount
-    }).then(data => {
-      console.log('here')
+    }).then(data => {      
       props.setMap(data.data.map)
       setAvailableArmies(data.data.available_armies)
       fetchNeighboursToBlue()
     })
   }
 
+  /*
+  *  after attacking game waits for opponent bot to play
+  *  if game is won by either it will alert that the game is over 
+  */
+
   const attack = (attacking_territory, attacked_territory, armiesCount) => {
     axios.post(`http://localhost:5000/territories/${attacked_territory}/attack`, {
       'attacking_territory': attacking_territory,
       'armies_count': armiesCount
     }).then(data => {
+      props.setMap(data.data.map)
+      if(data.data.winner !== "") {
+        alert(data.data.winner + " won the game")
+      }
       fetchNeighboursToBlue()
       setAttacking(false)
       setTurn('red')
       axios(
         `http://localhost:5000/opponent-play`
-      ).then(data => {
+      ).then(data => {      
         props.setMap(data.data.map)
+        if(data.data.winner !== "") {
+          alert(data.data.winner + " won the game")
+        }
         setTurn('blue')
         receiveBlueArmies()
       })
     })
 
-  }
+  }  
 
   const receiveBlueArmies = () => {
     axios(

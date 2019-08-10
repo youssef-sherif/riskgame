@@ -9,12 +9,19 @@ function Simulation(props) {
 
         socket.emit('time interval')        
 
-        socket.on("simulation change", data => {
+        socket.on('simulation change', data => {
             console.log('received data')
             if (typeof data !== 'undefined') {                    
                 props.setMap(data.map)
             }
-        })                        
+        })
+        
+        socket.on('game over', data => {
+            if (typeof data !== 'undefined') {                
+                alert(data.winner + ' has won the game')
+                socket.disconnect()
+            }
+        })
     }, 2000)
 
     return (
