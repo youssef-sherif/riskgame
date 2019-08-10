@@ -48,13 +48,9 @@ class AggressiveAgent(Agent):
         return territory_number
 
     def find_territory_with_most_armies(self, board) -> int:
-        territory_number = 1
-        for i in range(1, board.territory_count + 1):
-            if board.map[i].color == self.color:
-                if board.map[i].troops >= board.map[territory_number].troops:
-                    territory_number = i
+        territories = board.find_territories_with_color(self.color)
 
-        return territory_number
+        return max(territories, key=lambda k: territories[k])
 
 
 
