@@ -36,11 +36,11 @@ class AggressiveAgent(Agent):
         can_attack = False
         opposite_color_neighbours = {}
 
-        for i in board.map[attacking_territory].neighbours:
-            if board.map[int(i)].color == self.get_opponent_color() \
-                    and board.map[attacking_territory].has_neighbour(board.map[int(i)]):
+        for neighbour_territory in board.map[attacking_territory].neighbour_territories:
+            if neighbour_territory.color == self.get_opponent_color() \
+                    and board.map[attacking_territory].has_neighbour(neighbour_territory):
                 can_attack = True
-                opposite_color_neighbours[int(i)] = board.map[int(i)]
+                opposite_color_neighbours[neighbour_territory.id] = neighbour_territory
 
         if not can_attack:
             raise Exception("cannot attack")
