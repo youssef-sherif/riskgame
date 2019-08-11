@@ -7,6 +7,7 @@ class Territory:
         self.color = Color.Grey
         self.troops = 0
         self.neighbours = list()
+        self.neighbour_territories = list()
         self.id = int(id)
         self.x = x
         self.y = y
@@ -20,9 +21,12 @@ class Territory:
     def set_neighbours(self, territory):
         self.neighbours.extend(territory)
 
+    def add_neighbour_territory(self, territory):
+        self.neighbour_territories.append(territory)
+
     def has_neighbour(self, territory):
-        for i in self.neighbours:
-            if int(i) == territory.id:
+        for neighbour in self.neighbour_territories:
+            if neighbour.id == territory.id:
                 return True
 
         return False

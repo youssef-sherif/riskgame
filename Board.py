@@ -18,12 +18,16 @@ class Board:
         coordinates_file = open("Egypt_Coordinates.txt")
         text = file.read().split("\n")
         coordinates_text = coordinates_file.read().split("\n")
-        for i in range(1,28):
+        for i in range(1, 28):
             x = coordinates_text[i-1].split()[0]
             y = coordinates_text[i - 1].split()[1]
             cls.map[i] = Territory(i, x, y)
             current_line = text[i-1].split()
             cls.map[i].set_neighbours(current_line[1:])
+
+        for i in range(1, 28):
+            for neighbour in cls.map[i].neighbours:
+                cls.map[i].add_neighbour_territory(cls.map[int(neighbour)])
 
         return cls('Egypt', cls.territory_count)
 
@@ -39,11 +43,22 @@ class Board:
             current_line = text[i - 1].split()
             cls.map[i].set_neighbours(current_line[1:])
 
+        for i in range(1, 51):
+            for neighbour in cls.map[i].neighbours:
+                cls.map[i].add_neighbour_territory(cls.map[int(neighbour)])
+
         return cls('USA', cls.territory_count)
 
     def update(self, territory, armies_count, color):
         self.map[territory].color = color
         self.map[territory].troops += armies_count
+
+    def bulk_update(self, new):
+        i = 1
+        for territory in self.map:
+            territory.troops = new.map[i].troops
+            territory.color = new.map[i].color
+            i += 1
 
     def set_starting_armies(self, color):
         army_size = 20
