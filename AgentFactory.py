@@ -3,6 +3,8 @@ from HumanAgent import HumanAgent
 from PassiveAgent import PassiveAgent
 from AggressiveAgent import AggressiveAgent
 from MiniMaxAgent import MiniMaxAgent
+from NearlyPacifistAgent import NearlyPacifistAgent
+
 
 class AgentFactory:
 
@@ -16,3 +18,5 @@ class AgentFactory:
             return AggressiveAgent(color)
         elif agent_name == 'minimax':
             return MiniMaxAgent(color)
+        elif agent_name == 'nearlypascifist':
+            return NearlyPacifistAgent(color)

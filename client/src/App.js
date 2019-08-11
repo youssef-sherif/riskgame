@@ -90,6 +90,7 @@ function App() {
             <option value="passive">Passive</option>
             <option value="aggressive">Aggressive</option>
             <option value="minimax">MiniMax</option>
+            <option value="nearlypascifist">NearlyPacifist</option>
           </select>
         </div>
         :
@@ -101,6 +102,7 @@ function App() {
             <option value="passive">Passive</option>
             <option value="aggressive">Aggressive</option>
             <option value="minimax">MiniMax</option>
+            <option value="nearlypascifist">NearlyPacifist</option>
           </select>
 
           <label htmlFor="agent2-select">Choose agent2:</label>
@@ -110,6 +112,7 @@ function App() {
             <option value="passive">Passive</option>
             <option value="aggressive">Aggressive</option>
             <option value="minimax">MiniMax</option>
+            <option value="nearlypascifist">NearlyPacifist</option>
           </select>
         </div>
       }
