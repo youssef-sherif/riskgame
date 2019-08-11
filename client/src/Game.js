@@ -148,11 +148,11 @@ function Game(props) {
 
   return (
     <div>
-      <div className={"map"}>
+      <div className={props.country ==='Egypt'? "egypt-map" : "usa-map"}>
         <img alt="map" src={props.imgSrc} />
       </div>
-      <div className={"map"}>
-        <svg className="territory-svg" width="800" height="700">
+      <div className={props.country ==='Egypt'? "egypt-map" : "usa-map"}>
+        <svg className="territory-svg" width={props.country ==='Egypt'? "450" : "800"} height={props.country ==='Egypt'? "450" : "600"}>
           {
             props.map.map(territory => {
               return (

@@ -41,6 +41,7 @@ function App() {
             <Game
               setMap={setMap.bind(this)}
               map={map}
+              country={country}
               imgSrc={country === 'Egypt'? egyptMap : usaMap}
             />
           )
@@ -49,6 +50,7 @@ function App() {
             <Simulation
             setMap={setMap.bind(this)}
             map={map}
+            country={country}
             imgSrc={country === 'Egypt'? egyptMap : usaMap}
             />
           )
