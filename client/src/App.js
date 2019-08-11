@@ -3,6 +3,7 @@ import axios from 'axios'
 import Game from './Game'
 import Simulation from './Simulation'
 import egyptMap from './egypt-map.png'
+import usaMap from './usa-map.png'
 import './App.css'
 
 function App() {
@@ -34,14 +35,13 @@ function App() {
   }
 
   const getGame = () => {
-    if (started === true) {
-      if (country === 'Egypt') {
+    if (started === true) {      
         if (mode === 'playing') {
           return (
             <Game
               setMap={setMap.bind(this)}
               map={map}
-              imgSrc={egyptMap}
+              imgSrc={country === 'Egypt'? egyptMap : usaMap}
             />
           )
         } else {
@@ -49,16 +49,11 @@ function App() {
             <Simulation
             setMap={setMap.bind(this)}
             map={map}
-            imgSrc={egyptMap}
+            imgSrc={country === 'Egypt'? egyptMap : usaMap}
             />
           )
         }
-      } else {
-        return (
-          <div>not yet</div>
-        )
-      }
-    }
+      }  
   }
 
   return (
@@ -91,6 +86,7 @@ function App() {
             <option value="aggressive">Aggressive</option>
             <option value="minimax">MiniMax</option>
             <option value="nearlypascifist">NearlyPacifist</option>
+            <option value="greedy">Greedy</option>
           </select>
         </div>
         :
@@ -103,6 +99,7 @@ function App() {
             <option value="aggressive">Aggressive</option>
             <option value="minimax">MiniMax</option>
             <option value="nearlypascifist">NearlyPacifist</option>
+            <option value="greedy">Greedy</option>
           </select>
 
           <label htmlFor="agent2-select">Choose agent2:</label>
@@ -113,6 +110,7 @@ function App() {
             <option value="aggressive">Aggressive</option>
             <option value="minimax">MiniMax</option>
             <option value="nearlypascifist">NearlyPacifist</option>
+            <option value="greedy">Greedy</option>
           </select>
         </div>
       }

@@ -37,10 +37,14 @@ class Board:
         cls.map = dict()
 
         file = open("USA.txt")
+        coordinates_file = open("USA_Coordinates.txt")
         text = file.read().split("\n")
+        coordinates_text = coordinates_file.read().split("\n")
         for i in range(1, 51):
-            cls.map[i] = Territory()
-            current_line = text[i - 1].split()
+            x = coordinates_text[i-1].split()[0]
+            y = coordinates_text[i - 1].split()[1]
+            cls.map[i] = Territory(i, x, y)
+            current_line = text[i-1].split()
             cls.map[i].set_neighbours(current_line[1:])
 
         for i in range(1, 51):

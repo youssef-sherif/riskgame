@@ -152,7 +152,7 @@ function Game(props) {
         <img alt="map" src={props.imgSrc} />
       </div>
       <div className={"map"}>
-        <svg className="territory-svg" width="450" height="415">
+        <svg className="territory-svg" width="800" height="700">
           {
             props.map.map(territory => {
               return (
