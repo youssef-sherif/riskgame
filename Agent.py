@@ -90,3 +90,28 @@ class Agent:
 
         return attacking_states
 
+    def find_weakest_opposite_color_neighbour_to(self, board, attacking_territory):
+
+        can_attack = False
+        opposite_color_neighbours = {}
+
+        for neighbour_territory in board.map[attacking_territory].neighbour_territories:
+            if neighbour_territory.color == self.get_opponent_color() \
+                    and board.map[attacking_territory].has_neighbour(neighbour_territory):
+                can_attack = True
+                opposite_color_neighbours[neighbour_territory.id] = neighbour_territory
+
+        if not can_attack:
+            raise Exception("cannot attack")
+
+        return min(opposite_color_neighbours, key=lambda k: opposite_color_neighbours[k])
+
+    def find_owned_territory_with_fewest_armies(self, board) -> int:
+        territories = board.find_territories_with_color(self.color)
+
+        return min(territories, key=lambda k: territories[k])
+
+    def find_owned_territory_with_most_armies(self, board) -> int:
+        territories = board.find_territories_with_color(self.color)
+
+        return max(territories, key=lambda k: territories[k])
