@@ -17,7 +17,8 @@ function Simulation(props) {
         })
         
         socket.on('game over', data => {
-            if (typeof data !== 'undefined') {                
+            console.log(data)
+            if (data.winner !== null) {                
                 alert(data.winner + ' has won the game')
                 socket.disconnect()
             }

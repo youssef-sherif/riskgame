@@ -94,7 +94,7 @@ class Api:
         self.game.check_win_condition()
         armies_count = int(request.get_json()['armies_count'])
         attacking_territory = int(request.get_json()['attacking_territory'])
-        self.game.player.attack(self.game.board, int(attacking_territory), int(attacked_territory), armies_count)
+        self.game.player.attack(self.game.board.map[int(attacking_territory)], self.game.board.map[int(attacked_territory)], armies_count)
 
         return json_response({
             'map': self.game.board.to_json(),
@@ -103,8 +103,8 @@ class Api:
 
     @cross_origin(origin='http://localhost:3000')
     def opponent_play(self):
-        self.game.check_win_condition()
         self.game.opponent_agent.make_decision(api.game.board)
+        self.game.check_win_condition()
 
         return json_response({
             "winner": self.game.winner,
@@ -138,20 +138,18 @@ def handle_connect():
 def handle_simulation():
     api.game.agent_1.make_decision(api.game.board)
     emit('simulation change', {"map": api.game.board.to_json()})
-    try:
-        api.game.check_win_condition()
-    except Exception as e:
-        print(e)
-        emit('game over', {"winner": api.game.winner})
+    api.game.check_win_condition()
+
+    emit('game over', {"winner": api.game.winner})
     api.game.alternate_turn()
+
     sleep(2)
+
     api.game.agent_2.make_decision(api.game.board)
+    api.game.check_win_condition()
+
+    emit('game over', {"winner": api.game.winner})
     emit('simulation change', {"map": api.game.board.to_json()})
-    try:
-        api.game.check_win_condition()
-    except Exception as e:
-        print(e)
-        emit('game over', {"winner": api.game.winner})
     api.game.alternate_turn()
 
 

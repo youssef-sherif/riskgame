@@ -55,7 +55,7 @@ class Board:
 
     def bulk_update(self, new):
         i = 1
-        for territory in self.map:
+        for territory in self.map.values():
             territory.troops = new.map[i].troops
             territory.color = new.map[i].color
             i += 1
@@ -79,6 +79,14 @@ class Board:
             j += 1
 
         return territories
+
+    def count_territories_with_color(self, color) -> int:
+        count = 0
+        for i in range(1, self.territory_count+1):
+            if self.map[i].color == color:
+                count += 1
+
+        return count
 
     def to_json(self):
         arr = [{} for i in range(self.territory_count)]

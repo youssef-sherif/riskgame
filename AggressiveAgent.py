@@ -7,29 +7,17 @@ class AggressiveAgent(Agent):
     def make_decision(self, board):
         self.receive_armies(board)
         self.place_territories(board)
-        self.attack(board)
-
-    def place_territories(self, board):
-        territory = self.find_owned_territory_with_most_armies(board)
-        board.update(territory, self.available_armies_count, self.color)
-
-    def attack(self, board):
         try:
             attacking_territory = self.find_owned_territory_with_most_armies(board)
             attacked_territory = self.find_weakest_opposite_color_neighbour_to(board, attacking_territory)
             armies_count = board.map[attacking_territory].troops - 1
-
-            board.map[attacked_territory].troops -= armies_count
-            board.map[attacking_territory].troops -= armies_count
-
-            if board.map[attacked_territory].troops <= 0:
-                board.map[attacked_territory].troops = armies_count
-                board.map[attacked_territory].color = board.map[attacking_territory].color
-
-                return True
+            self.attack(board.map[attacking_territory], board.map[attacked_territory], armies_count)
         except Exception as e:
             print(e)
-            return False
+
+    def place_territories(self, board):
+        territory = self.find_owned_territory_with_most_armies(board)
+        board.update(territory, self.available_armies_count, self.color)
 
     def find_weakest_opposite_color_neighbour_to(self, board, attacking_territory):
 
@@ -44,8 +32,6 @@ class AggressiveAgent(Agent):
 
         if not can_attack:
             raise Exception("cannot attack")
-
-        print(opposite_color_neighbours)
 
         return min(opposite_color_neighbours, key=lambda k: opposite_color_neighbours[k])
 
