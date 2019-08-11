@@ -4,6 +4,7 @@ from PassiveAgent import PassiveAgent
 from AggressiveAgent import AggressiveAgent
 from MiniMaxAgent import MiniMaxAgent
 from NearlyPacifistAgent import NearlyPacifistAgent
+from GreedyAgent import GreedyAgent
 
 
 class AgentFactory:
@@ -20,3 +21,5 @@ class AgentFactory:
             return MiniMaxAgent(color)
         elif agent_name == 'nearlypascifist':
             return NearlyPacifistAgent(color)
+        elif agent_name == 'greedy':
+            return GreedyAgent(color)

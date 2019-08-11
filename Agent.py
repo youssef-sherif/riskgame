@@ -74,9 +74,11 @@ class Agent:
                     if neighbour.color == self.get_opponent_color():  # We can attack this territory
                         if neighbour.troops < territory.troops:       # Attack only if success is guaranteed
                             copied_state = deepcopy(state)
-                            copied_state.board.map[i].neighbour_territories[j].troops = copied_state.board.map[i].troops - 1
-                            copied_state.board.map[i].troops = 1
-                            copied_state.board.map[i].neighbour_territories[j].color = self.color
+                            attacking_territory = copied_state.board.map[i]
+                            attacked_territory = neighbour
+                            armies = copied_state.board.map[i].troops - 1
+
+                            self.attack(attacking_territory, attacked_territory, armies)
 
                             child_state = State(copied_state.board, copied_state.board.map[i].troops, 0)
                             node = Node(child_state, state)
