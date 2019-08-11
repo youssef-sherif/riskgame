@@ -26,4 +26,7 @@ class Agent:
     def get_opponent_color(self):
         if self.color == Color.Blue:
             return Color.Red
-        return Color.Blue
+        elif self.color == Color.Red:
+            return Color.Blue
+        else:
+            return Color.Grey

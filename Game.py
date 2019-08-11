@@ -64,8 +64,6 @@ class Game:
         red_territories = self.board.find_territories_with_color(Color.Red)
         if not blue_territories:
             self.winner = Color.to_str(Color.Red)
-            raise Exception(Color.to_str(Color.Red) + ' won')
         if not red_territories:
             self.winner = Color.to_str(Color.Blue)
-            raise Exception(Color.to_str(Color.Blue) + ' won')
 

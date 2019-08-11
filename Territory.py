@@ -7,7 +7,7 @@ class Territory:
         self.color = Color.Grey
         self.troops = 0
         self.neighbours = list()
-        self.id = id
+        self.id = int(id)
         self.x = x
         self.y = y
 
@@ -17,9 +17,15 @@ class Territory:
     def __gt__(self, other):
         return self.troops > other.troops
 
-
     def set_neighbours(self, territory):
         self.neighbours.extend(territory)
+
+    def has_neighbour(self, territory):
+        for i in self.neighbours:
+            if int(i) == territory.id:
+                return True
+
+        return False
 
     def to_json(self):
         return {

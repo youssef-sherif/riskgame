@@ -91,33 +91,23 @@ class Api:
 
     @cross_origin(origin='http://localhost:3000')
     def attack(self, attacked_territory):
-        winner = ""
-        try:
-            self.game.check_win_condition()
-            armies_count = int(request.get_json()['armies_count'])
-            attacking_territory = int(request.get_json()['attacking_territory'])
-            self.game.player.attack(self.game.board, int(attacking_territory), int(attacked_territory), armies_count)
-        except Exception as e:
-            winner = self.game.winner
-            print(winner)
+        self.game.check_win_condition()
+        armies_count = int(request.get_json()['armies_count'])
+        attacking_territory = int(request.get_json()['attacking_territory'])
+        self.game.player.attack(self.game.board, int(attacking_territory), int(attacked_territory), armies_count)
 
         return json_response({
             'map': self.game.board.to_json(),
-            'winner': winner
+            'winner': self.game.winner
         })
 
     @cross_origin(origin='http://localhost:3000')
     def opponent_play(self):
-        winner = ""
-        try:
-            self.game.check_win_condition()
-            self.game.opponent_agent.make_decision(api.game.board)
-        except Exception as e:
-            winner = self.game.winner
-            print(winner)
+        self.game.check_win_condition()
+        self.game.opponent_agent.make_decision(api.game.board)
 
         return json_response({
-            "winner": winner,
+            "winner": self.game.winner,
             "map": api.game.board.to_json()
         })
 

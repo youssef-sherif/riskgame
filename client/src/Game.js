@@ -46,7 +46,7 @@ function Game(props) {
       'armies_count': armiesCount
     }).then(data => {
       props.setMap(data.data.map)
-      if(data.data.winner !== "") {
+      if(data.data.winner !== null) {
         alert(data.data.winner + " won the game")
       }
       fetchNeighboursToBlue()
@@ -56,7 +56,7 @@ function Game(props) {
         `http://localhost:5000/opponent-play`
       ).then(data => {      
         props.setMap(data.data.map)
-        if(data.data.winner !== "") {
+        if(data.data.winner !== null) {
           alert(data.data.winner + " won the game")
         }
         setTurn('blue')
