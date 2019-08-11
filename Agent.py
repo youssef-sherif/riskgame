@@ -58,11 +58,14 @@ class Agent:
             if territory.color == self.color:  # We can place armies on this territory
                 copied_state = deepcopy(state)
                 copied_state.board.map[i].troops += state.armies
-                child_state = State(copied_state.board, copied_state.board.map[i].troops, copied_state.depth-1)
+                child_state = State(copied_state.board, copied_state.board.map[i].troops, 0)
+                if child_state.depth == 0:
+                    break
                 place_armies_states.append(child_state)
             i += 1
 
-        attacking_states = list()  # states generated after attack
+        attacking_states = list()
+
         i = 1
         for territory in state.board.map.values():
             if territory.color == self.color:
@@ -77,6 +80,9 @@ class Agent:
 
                             child_state = State(copied_state.board, copied_state.board.map[i].troops, 0)
                             node = Node(child_state, state)
+
+                            if child_state.depth == 0:
+                                return attacking_states
 
                             attacking_states.append(node)
                     j += 1
