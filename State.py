@@ -3,6 +3,7 @@ class State():
         self.board = board
         self.armies = armies
         self.depth = depth
+        self.distance = None
 
     def is_terminal(self, opponent_color):
         if self.depth == 0:

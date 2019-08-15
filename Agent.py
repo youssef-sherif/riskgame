@@ -27,11 +27,12 @@ class Agent:
         return
 
     def attack(self, attacking_territory, attacked_territory, armies_count):
+        temp = attacked_territory.troops
         attacked_territory.troops -= armies_count
         attacking_territory.troops -= armies_count
 
         if attacked_territory.troops <= 0:
-            attacked_territory.troops = 1
+            attacked_territory.troops = armies_count - temp
             attacked_territory.color = attacking_territory.color
 
             return True
@@ -51,20 +52,24 @@ class Agent:
         my_territories_count = board.count_territories_with_color(self.color)
         return opponent_territories_count - my_territories_count
 
-    def get_children_states(self, state):
-        place_armies_states = list()
+    def get_place_armies_children(self, state):
+        place_armies_children = list()
         i = 1
         for territory in state.board.map.values():
-            if territory.color == self.color:  # We can place armies on this territory
+            if territory.color == self.color or territory.color == Color.Grey:  # We can place armies on this territory
                 copied_state = deepcopy(state)
                 copied_state.board.map[i].troops += state.armies
-                child_state = State(copied_state.board, copied_state.board.map[i].troops, 0)
-                if child_state.depth == 0:
-                    break
-                place_armies_states.append(child_state)
+
+                child_state = State(copied_state.board, self.available_armies_count, 0)
+                node = Node(child_state, state)
+
+                place_armies_children.append(node)
             i += 1
 
-        attacking_states = list()
+        return place_armies_children
+
+    def get_attacking_children(self, state):
+        attacking_children = list()
 
         i = 1
         for territory in state.board.map.values():
@@ -83,14 +88,11 @@ class Agent:
                             child_state = State(copied_state.board, copied_state.board.map[i].troops, 0)
                             node = Node(child_state, state)
 
-                            if child_state.depth == 0:
-                                return attacking_states
-
-                            attacking_states.append(node)
+                            attacking_children.append(node)
                     j += 1
             i += 1
 
-        return attacking_states
+        return attacking_children
 
     def find_weakest_opposite_color_neighbour_to(self, board, attacking_territory):
 

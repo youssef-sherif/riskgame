@@ -27,10 +27,10 @@ function Simulation(props) {
 
     return (
         <div>
-            <div className={"map"}>
+            <div className={props.country ==='Egypt'? "egypt-map" : "usa-map"}>
                 <img alt="map" src={props.imgSrc} />
             </div>
-            <div className={"map"}>
+            <div className={props.country ==='Egypt'? "egypt-map" : "usa-map"}>
                 <svg className="territory-svg" width="450" height="415">
                     {
                         props.map.map(territory => {
