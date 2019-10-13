@@ -55,15 +55,17 @@ class Agent:
     def get_place_armies_children(self, state):
         place_armies_children = list()
         i = 1
-        for territory in state.board.map.values():
-            if territory.color == self.color or territory.color == Color.Grey:  # We can place armies on this territory
-                copied_state = deepcopy(state)
-                copied_state.board.map[i].troops += state.armies
+        territories = state.board.find_territories_with_color(self.color)
+        for territory in territories.keys():
+            for neighbour in state.board.map[territory].neighbour_territories:
+                if neighbour.color == Color.Grey or self.color == neighbour.color:  # We can place armies here
+                    copied_state = deepcopy(state)
+                    copied_state.board.map[i].troops += state.armies
+                    copied_state.board.map[i].color = self.color
+                    child_state = State(copied_state.board, self.available_armies_count, 0)
+                    node = Node(child_state, state)
 
-                child_state = State(copied_state.board, self.available_armies_count, 0)
-                node = Node(child_state, state)
-
-                place_armies_children.append(node)
+                    place_armies_children.append(node)
             i += 1
 
         return place_armies_children

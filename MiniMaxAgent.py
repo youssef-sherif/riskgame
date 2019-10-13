@@ -11,9 +11,6 @@ class MiniMaxAgent(Agent):
 
         place_armies_result, _ = self.maximize_place_armies(state, -999999, 999999)
 
-        if place_armies_result.parent is not None:
-            board.bulk_update(place_armies_result.parent.board)
-
         attack_result, _ = self.maximize_attack(place_armies_result.parent, -999999, 999999)
 
         if attack_result is not None:

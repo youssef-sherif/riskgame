@@ -28,7 +28,7 @@ function Game(props) {
   const placeArmies = (territory, armiesCount) => {
     axios.post(`http://localhost:5000/territories/${territory}/place`, {
       'armies_count': armiesCount
-    }).then(data => {      
+    }).then(data => {
       props.setMap(data.data.map)
       setAvailableArmies(data.data.available_armies)
       fetchNeighboursToBlue()
@@ -46,7 +46,7 @@ function Game(props) {
       'armies_count': armiesCount
     }).then(data => {
       props.setMap(data.data.map)
-      if(data.data.winner !== null) {
+      if (data.data.winner !== null) {
         alert(data.data.winner + " won the game")
       }
       fetchNeighboursToBlue()
@@ -54,9 +54,9 @@ function Game(props) {
       setTurn('red')
       axios(
         `http://localhost:5000/opponent-play`
-      ).then(data => {      
+      ).then(data => {
         props.setMap(data.data.map)
-        if(data.data.winner !== null) {
+        if (data.data.winner !== null) {
           alert(data.data.winner + " won the game")
         }
         setTurn('blue')
@@ -64,7 +64,7 @@ function Game(props) {
       })
     })
 
-  }  
+  }
 
   const receiveBlueArmies = () => {
     axios(
@@ -148,11 +148,11 @@ function Game(props) {
 
   return (
     <div>
-      <div className={props.country ==='Egypt'? "egypt-map" : "usa-map"}>
+      <div className={props.country === 'Egypt' ? "egypt-map" : "usa-map"}>
         <img alt="map" src={props.imgSrc} />
       </div>
-      <div className={props.country ==='Egypt'? "egypt-map" : "usa-map"}>
-        <svg className="territory-svg" width={props.country ==='Egypt'? "450" : "800"} height={props.country ==='Egypt'? "450" : "600"}>
+      <div className={props.country === 'Egypt' ? "egypt-map" : "usa-map"}>
+        <svg className="territory-svg" width={props.country === 'Egypt' ? "450" : "800"} height={props.country === 'Egypt' ? "450" : "600"}>
           {
             props.map.map(territory => {
               return (

@@ -11,9 +11,6 @@ class AStarAgent(Agent):
 
         place_armies_result = self.a_star_place_armies(state)
 
-        if place_armies_result is not None and place_armies_result.parent is not None:
-            board.bulk_update(place_armies_result.parent.board)
-
         attack_result = self.a_star_attack(place_armies_result.parent)
 
         if attack_result is not None:

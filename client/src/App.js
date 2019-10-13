@@ -35,27 +35,27 @@ function App() {
   }
 
   const getGame = () => {
-    if (started === true) {      
-        if (mode === 'playing') {
-          return (
-            <Game
-              setMap={setMap.bind(this)}
-              map={map}
-              country={country}
-              imgSrc={country === 'Egypt'? egyptMap : usaMap}
-            />
-          )
-        } else {
-          return (
-            <Simulation
+    if (started === true) {
+      if (mode === 'playing') {
+        return (
+          <Game
             setMap={setMap.bind(this)}
             map={map}
             country={country}
-            imgSrc={country === 'Egypt'? egyptMap : usaMap}
-            />
-          )
-        }
-      }  
+            imgSrc={country === 'Egypt' ? egyptMap : usaMap}
+          />
+        )
+      } else {
+        return (
+          <Simulation
+            setMap={setMap.bind(this)}
+            map={map}
+            country={country}
+            imgSrc={country === 'Egypt' ? egyptMap : usaMap}
+          />
+        )
+      }
+    }
   }
 
   return (

@@ -19,9 +19,6 @@ class GreedyAgent(Agent):
                 min_heuristic = new_heuristic
                 place_armies_result = child
 
-        if place_armies_result.parent is not None:
-            board.bulk_update(place_armies_result.parent.board)
-
         attacking_children_states = self.get_attacking_children(place_armies_result.parent)
         attacking_result = None
 
