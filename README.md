@@ -13,4 +13,4 @@ AI agents are built in python and client is built in ReactJS
 
 # Sample Run (Human vs Minimax)
 
-![Farmers Market Finder Demo](Peek\ 2019-11-28\ 19-43.gif)
+![Farmers Market Finder Demo](sample.gif)
