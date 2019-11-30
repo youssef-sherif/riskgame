@@ -9,7 +9,7 @@ AI agents are built in python and client is built in ReactJS
 
 # Features:
  - Human vs AI
- - Simulation of AI vs AI 
+ - Simulation of AI vs AI using web sockets (Flask SocketIO)
 
 # Sample Run (Human vs Minimax)
 
