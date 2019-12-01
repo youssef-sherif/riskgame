@@ -21,7 +21,7 @@ AI agents are built in python and client is built in ReactJS
  - Human vs AI
  - Simulation of AI vs AI using web sockets (Flask SocketIO)
 
-# Installation
+# Installation (Tested on Ununtu 18.04)
  # Python3 Flask API
   ```
   $ pip3 install flask flask_cors flask_socketio
@@ -29,8 +29,6 @@ AI agents are built in python and client is built in ReactJS
   ```
  # ReactJS
   This project was originally bundled using Create React App.
-
-  - Supports npm 6+ / nodejs 9+ / webpack 4+
 
   - Install dependencies
 ```
