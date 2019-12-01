@@ -3,7 +3,6 @@ from Agent import Agent
 from Board import Board
 from Territory import Territory
 from Color import Color
-import numpy as np
 
 
 class Game:
