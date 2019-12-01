@@ -30,8 +30,6 @@ AI agents are built in python and client is built in ReactJS
  # ReactJS
   This project was originally bundled using Create React App.
 
-  - Supports npm 6+ / nodejs 9+ / webpack 4+
-
   - Install dependencies
 ```
   $ cd client
