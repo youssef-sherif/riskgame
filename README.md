@@ -1,6 +1,11 @@
 # riskgame
 AI agents are built in python and client is built in ReactJS
 
+# Sample Run (Human vs Minimax)
+
+![Farmers Market Finder Demo](sample.gif)
+
+
 # Agents Incorporated:
  - Passive Agent
  - Aggressive Agent
@@ -16,6 +21,30 @@ AI agents are built in python and client is built in ReactJS
  - Human vs AI
  - Simulation of AI vs AI using web sockets (Flask SocketIO)
 
-# Sample Run (Human vs Minimax)
+# Installation
+ # Python3 Flask API
+  ```
+  $ pip3 install flask flask_cors flask_socketio
+  $ python3 Api.py
+  ```
+ # ReactJS
+  This project was originally bundled using Create React App.
 
-![Farmers Market Finder Demo](sample.gif)
+  - Supports npm 6+ / nodejs 9+ / webpack 4+
+
+  - Install dependencies
+```
+  $ cd client
+  $ npm install
+```
+
+  - For development build
+```
+  $ yarn start
+```
+
+  - For production build
+```
+  $ yarn build
+  $ serve -s build/
+```
