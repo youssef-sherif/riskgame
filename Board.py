@@ -14,8 +14,8 @@ class Board:
         cls.territory_count = 27
         cls.map = dict()
 
-        file = open("Egypt.txt")
-        coordinates_file = open("Egypt_Coordinates.txt")
+        file = open("maps/egypt/Egypt.txt")
+        coordinates_file = open("maps/egypt/Egypt_Coordinates.txt")
         text = file.read().split("\n")
         coordinates_text = coordinates_file.read().split("\n")
         for i in range(1, 28):
@@ -36,8 +36,8 @@ class Board:
         cls.territory_count = 50
         cls.map = dict()
 
-        file = open("USA.txt")
-        coordinates_file = open("USA_Coordinates.txt")
+        file = open("maps/usa/USA.txt")
+        coordinates_file = open("maps/usa/USA_Coordinates.txt")
         text = file.read().split("\n")
         coordinates_text = coordinates_file.read().split("\n")
         for i in range(1, 51):
