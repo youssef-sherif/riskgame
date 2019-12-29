@@ -112,7 +112,7 @@ function Game(props) {
     if (availableArmies <= 0) {
       return (
         <div>
-          you don't have any more troops.
+          you dont have any more troops.
           <br />
           Attack to continue
         </div>
